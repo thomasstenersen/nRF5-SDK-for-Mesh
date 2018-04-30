@@ -1,0 +1,3 @@
+[submodule "external/thingy"]
+	path = external/thingy
+	url = https://github.com/NordicSemiconductor/Nordic-Thingy52-FW.git
