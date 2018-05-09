@@ -50,7 +50,7 @@
 
 static void reply_status(const simple_on_off_server_t * p_server,
                          const access_message_rx_t * p_message,
-                         bool present_on_off)
+                         uint8_t present_on_off)
 {
     simple_on_off_msg_status_t status;
     status.present_on_off = present_on_off ? 1 : 0;
@@ -74,7 +74,7 @@ static void handle_set_cb(access_model_handle_t handle, const access_message_rx_
     simple_on_off_server_t * p_server = p_args;
     NRF_MESH_ASSERT(p_server->set_cb != NULL);
 
-    bool value = (((simple_on_off_msg_set_t*) p_message->p_data)->on_off) > 0;
+    uint8_t value = (((simple_on_off_msg_set_t*) p_message->p_data)->on_off);
     value = p_server->set_cb(p_server, value);
     reply_status(p_server, p_message, value);
     (void) simple_on_off_server_status_publish(p_server, value); /* We don't care about status */
@@ -91,7 +91,7 @@ static void handle_set_unreliable_cb(access_model_handle_t handle, const access_
 {
     simple_on_off_server_t * p_server = p_args;
     NRF_MESH_ASSERT(p_server->set_cb != NULL);
-    bool value = (((simple_on_off_msg_set_unreliable_t*) p_message->p_data)->on_off) > 0;
+    uint8_t value = (((simple_on_off_msg_set_unreliable_t*) p_message->p_data)->on_off);
     value = p_server->set_cb(p_server, value);
     (void)simple_on_off_server_status_publish(p_server, value);
 }
@@ -127,7 +127,7 @@ uint32_t simple_on_off_server_init(simple_on_off_server_t * p_server, uint16_t e
     return access_model_add(&init_params, &p_server->model_handle);
 }
 
-uint32_t simple_on_off_server_status_publish(simple_on_off_server_t * p_server, bool value)
+uint32_t simple_on_off_server_status_publish(simple_on_off_server_t * p_server, uint8_t value)
 {
     simple_on_off_msg_status_t status;
     status.present_on_off = value ? 1 : 0;

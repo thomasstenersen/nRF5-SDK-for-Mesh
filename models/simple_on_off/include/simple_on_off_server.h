@@ -60,7 +60,7 @@ typedef struct __simple_on_off_server simple_on_off_server_t;
  * @param[in] p_self Pointer to the Simple OnOff Server context structure.
  * @returns @c true if the state is On, @c false otherwise.
  */
-typedef bool (*simple_on_off_get_cb_t)(const simple_on_off_server_t * p_self);
+typedef uint8_t (*simple_on_off_get_cb_t)(const simple_on_off_server_t * p_self);
 
 /**
  * Set callback type.
@@ -68,7 +68,7 @@ typedef bool (*simple_on_off_get_cb_t)(const simple_on_off_server_t * p_self);
  * @param[in] on_off Desired state
  * @returns @c true if the current state is On, @c false otherwise.
  */
-typedef bool (*simple_on_off_set_cb_t)(const simple_on_off_server_t * p_self, bool on_off);
+typedef uint8_t (*simple_on_off_set_cb_t)(const simple_on_off_server_t * p_self, uint8_t on_off);
 
 /** Simple OnOff Server state structure. */
 struct __simple_on_off_server
@@ -118,7 +118,7 @@ uint32_t simple_on_off_server_init(simple_on_off_server_t * p_server, uint16_t e
  * @retval NRF_ERROR_INVALID_LENGTH Attempted to send message larger than @ref ACCESS_MESSAGE_LENGTH_MAX.
  *
  */
-uint32_t simple_on_off_server_status_publish(simple_on_off_server_t * p_server, bool value);
+uint32_t simple_on_off_server_status_publish(simple_on_off_server_t * p_server, uint8_t value);
 
 /** @} end of SIMPLE_ON_OFF_SERVER */
 

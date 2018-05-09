@@ -3,7 +3,6 @@ set(nRF5_SDK_15.0.0_a53641a_SOURCE_FILES
 
 set(nRF5_SDK_15.0.0_a53641a_INCLUDE_DIRS
     "${SDK_ROOT}/integration/nrfx"
-    "${SDK_ROOT}/components/libraries/log"
     "${SDK_ROOT}/components/libraries/util"
     "${SDK_ROOT}/components/libraries/delay")
 

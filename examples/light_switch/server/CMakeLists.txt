@@ -8,6 +8,7 @@ add_executable(${target}
     "${MBTLE_SOURCE_DIR}/examples/common/src/rtt_input.c"
     "${CMAKE_SOURCE_DIR}/examples/common/src/simple_hal.c"
     "${CMAKE_SOURCE_DIR}/examples/common/src/mesh_app_utils.c"
+    "${SDK_ROOT}/modules/nrfx/drivers/src/nrfx_pwm.c"
     ${WEAK_SOURCE_FILES}
     ${MESH_CORE_SOURCE_FILES}
     ${MESH_BEARER_SOURCE_FILES}
@@ -25,6 +26,13 @@ target_include_directories(${target} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/../include"
     "${CMAKE_SOURCE_DIR}/examples/common/include"
     "${CMAKE_SOURCE_DIR}/external/rtt/include"
+    "${SDK_ROOT}/modules/nrfx/drivers/include"
+    "${SDK_ROOT}/modules/nrfx/drivers"
+    "${SDK_ROOT}/modules/nrfx/hal"
+    "${SDK_ROOT}/components/libraries/experimental_section_vars"
+    "${SDK_ROOT}/components/libraries/experimental_log"
+    "${SDK_ROOT}/components/libraries/experimental_log/src"
+    "${SDK_ROOT}/components/libraries/strerror"
     ${SIMPLE_ON_OFF_SERVER_INCLUDE_DIRS}
     ${CONFIG_SERVER_INCLUDE_DIRS}
     ${HEALTH_SERVER_INCLUDE_DIRS}
@@ -32,7 +40,8 @@ target_include_directories(${target} PUBLIC
     ${${SOFTDEVICE}_INCLUDE_DIRS}
     ${${PLATFORM}_INCLUDE_DIRS}
     ${${BOARD}_INCLUDE_DIRS}
-    ${${nRF5_SDK_VERSION}_INCLUDE_DIRS})
+    ${${nRF5_SDK_VERSION}_INCLUDE_DIRS}
+    )
 
 set_target_link_options(${target}
     ${CMAKE_CURRENT_SOURCE_DIR}/linker/${PLATFORM}_${SOFTDEVICE})
@@ -44,7 +53,8 @@ target_compile_definitions(${target} PUBLIC
     ${USER_DEFINITIONS}
     ${${PLATFORM}_DEFINES}
     ${${SOFTDEVICE}_DEFINES}
-    ${${BOARD}_DEFINES})
+    ${${BOARD}_DEFINES}
+    -DUSE_APP_CONFIG)
 
 target_link_libraries(${target}
     rtt_${PLATFORM}

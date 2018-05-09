@@ -49,10 +49,7 @@
 #include "mesh_provisionee.h"
 #include "nrf_mesh_config_examples.h"
 #include "nrf_mesh_configure.h"
-
-#include "nrf_mesh_events.h"
-#include "nrf_nvic.h"
-
+#include "nrfx_pwm.h"
 
 #define RTT_INPUT_POLL_PERIOD_MS (100)
 #define LED_PIN_NUMBER           (BSP_LED_0)
@@ -64,6 +61,21 @@
 
 static simple_on_off_server_t m_server;
 static bool                   m_device_provisioned;
+static const nrfx_pwm_t m_pwm0 = NRFX_PWM_INSTANCE(0);
+static nrf_pwm_values_common_t /*const*/ pwm_seq_values[] = {0};
+
+static void led_set(uint16_t value)
+{
+    pwm_seq_values[0] = value;
+    nrf_pwm_sequence_t const pwm_seq = {
+        .values.p_common = pwm_seq_values,
+        .length          = NRF_PWM_VALUES_LENGTH(pwm_seq_values),
+        .repeats         = 0,
+        .end_delay       = 0
+    };
+
+    (void) nrfx_pwm_simple_playback(&m_pwm0, &pwm_seq, 1, NRFX_PWM_FLAG_LOOP);
+}
 
 static void provisioning_complete_cb(void)
 {
@@ -73,19 +85,36 @@ static void provisioning_complete_cb(void)
     dsm_local_unicast_addresses_get(&node_address);
     __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "Node Address: 0x%04x \n", node_address.address_start);
 
-    hal_led_mask_set(LEDS_MASK, LED_MASK_STATE_OFF);
-    hal_led_blink_ms(LEDS_MASK, LED_BLINK_INTERVAL_MS, LED_BLINK_CNT_PROV);
+    hal_led_mask_set(LEDS_MASK, false);
+    hal_led_blink_ms(LED_PIN_MASK, 200, 4);
+
+    nrfx_pwm_config_t const config0 = {
+        .output_pins =
+        {
+            BSP_LED_0 | NRFX_PWM_PIN_INVERTED, // channel 0
+            BSP_LED_1 | NRFX_PWM_PIN_INVERTED, // channel 1
+            BSP_LED_2 | NRFX_PWM_PIN_INVERTED, // channel 2
+            BSP_LED_3 | NRFX_PWM_PIN_INVERTED  // channel 3
+        },
+        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+        .base_clock   = NRF_PWM_CLK_500kHz,
+        .count_mode   = NRF_PWM_MODE_UP,
+        .top_value    = UINT8_MAX,
+        .load_mode    = NRF_PWM_LOAD_COMMON,
+        .step_mode    = NRF_PWM_STEP_AUTO
+    };
+    APP_ERROR_CHECK(nrfx_pwm_init(&m_pwm0, &config0, NULL));
 }
 
-static bool on_off_server_get_cb(const simple_on_off_server_t * p_server)
+static uint8_t on_off_server_get_cb(const simple_on_off_server_t * p_server)
 {
-    return hal_led_pin_get(LED_PIN_NUMBER);
+    return pwm_seq_values[0];
 }
 
-static bool on_off_server_set_cb(const simple_on_off_server_t * p_server, bool value)
+static uint8_t on_off_server_set_cb(const simple_on_off_server_t * p_server, uint8_t value)
 {
     __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "Got SET command to %u\n", value);
-    hal_led_pin_set(LED_PIN_NUMBER, value);
+    led_set(value);
     return value;
 }
 
@@ -138,10 +167,11 @@ static void button_event_handler(uint32_t button_number)
 
 static void app_rtt_input_handler(int key)
 {
-    if (key >= '0' && key <= '4')
+    if (key >= '0' && key <= '9')
     {
-        uint32_t button_number = key - '0';
-        button_event_handler(button_number);
+        uint16_t value = key - '0';
+        /* button_event_handler(button_number); */
+        led_set(value);
     }
 }
 
@@ -177,6 +207,7 @@ static void initialize(void)
     __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "----- BLE Mesh Light Switch Server Demo -----\n");
 
     hal_leds_init();
+
 #if BUTTON_BOARD
     ERROR_CHECK(hal_buttons_init(button_event_handler));
 #endif
