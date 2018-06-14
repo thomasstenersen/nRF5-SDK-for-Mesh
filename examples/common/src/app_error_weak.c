@@ -55,8 +55,8 @@
 static inline void sleep_forever(void)
 {
     /* Turn on all LEDs on board */
-    NRF_GPIO->DIRSET = LEDS_MASK;
-    NRF_GPIO->OUTCLR = LEDS_MASK;
+    /* NRF_GPIO->DIRSET = LEDS_MASK; */
+    /* NRF_GPIO->OUTCLR = LEDS_MASK; */
 
     /*lint -save -e438 -e550 Unsused variable irqs_masked */
     uint32_t irqs_masked __attribute__((unused));

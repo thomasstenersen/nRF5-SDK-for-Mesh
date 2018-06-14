@@ -40,7 +40,7 @@
 #define __THINGY_CONFIG_H__
 
 #define APP_TIMER_PRESCALER             0                                           /**< Value of the RTC1 PRESCALER register. */
-#define APP_TIMER_OP_QUEUE_SIZE         75                                          /**< Size of timer operation queues: 6 LEDs, 2 buttons, 3 sensor notification timers, 3 sensor data convertion timers   . */
+#define APP_TIMER_OP_QUEUE_SIZE         75*2                                         /**< Size of timer operation queues: 6 LEDs, 2 buttons, 3 sensor notification timers, 3 sensor data convertion timers   . */
 
 #define IS_SRVC_CHANGED_CHARACT_PRESENT 1                                           /**< Include the service_changed characteristic. If not enabled, the server's database cannot be changed for the lifetime of the device. */
 
