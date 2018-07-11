@@ -35,42 +35,20 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef APP_CONFIG_H__
-#define APP_CONFIG_H__
+#ifndef MESH_UI_H__
+#define MESH_UI_H__
 
-/* Override default sdk_config.h values. */
-#define NRF_SDH_ENABLED 1
-#define NRF_SDH_BLE_ENABLED 1
-#define NRF_SDH_SOC_ENABLED 1
-#define NRF_SDH_BLE_GATT_MAX_MTU_SIZE 69
-#define NRF_SDH_BLE_PERIPHERAL_LINK_COUNT 1
-#define NRF_SDH_BLE_SERVICE_CHANGED 1
-#define APP_TIMER_ENABLED 1
-#define BUTTON_ENABLED 1
-#define NRFX_TWI_ENABLED 1
-#define NRFX_TWI0_ENABLED 1
-#define TWI_ENABLED 1
-#define TWI0_ENABLED 1
+#include "nrf_drv_twi.h"
+#include "app_button.h"
+
+typedef struct
+{
+    app_button_handler_t button_cb;
+    const nrf_drv_twi_t * p_twi_instance;
+} mesh_ui_init_params_t;
 
 
-#define APP_SCHEDULER_ENABLED 1
-#define APP_TIMER_CONFIG_USE_SCHEDULER 1
-#define NRF_SDH_DISPATCH_MODEL 1
+uint32_t mesh_ui_init(mesh_ui_init_params_t * p_params);
+uint32_t mesh_ui_led_rgb_set(uint8_t r, uint8_t g, uint8_t b);
 
-
-#define GPIOTE_ENABLED 1
-#define NRF_QUEUE_ENABLED 1
-#define NRF_STRERROR_ENABLED 1
-#define APP_TIMER_CONFIG_OP_QUEUE_SIZE 75 * 2
-#define APP_TIMER_CONFIG_USE_SCHEDULER 1
-#define TWI_DEFAULT_CONFIG_IRQ_PRIORITY 6
-
-
-#define NRF_LOG_ENABLED 1
-#define NRF_LOG_BACKEND_RTT_ENABLED 1
-#define NRF_LOG_BACKEND_RTT_TEMP_BUFFER_SIZE 64
-#define NRF_LOG_BACKEND_RTT_TX_RETRY_DELAY_MS 1
-#define NRF_LOG_BACKEND_RTT_TX_RETRY_CNT 3
-#define NRF_LOG_USES_COLORS 1
-
-#endif /* APP_CONFIG_H__ */
+#endif /* MESH_UI_H__ */

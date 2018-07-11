@@ -231,7 +231,6 @@ static void gap_params_init(void)
     APP_ERROR_CHECK(err_code);
 }
 
-
 /**@brief Application main function.
  */
 int main(void)

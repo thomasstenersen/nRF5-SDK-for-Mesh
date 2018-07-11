@@ -18,30 +18,26 @@ MEMORY
 SECTIONS
 {
   . = ALIGN(4);
-  .svc_data :
+  .mem_section_dummy_ram :
   {
-    PROVIDE(__start_svc_data = .);
-    KEEP(*(.svc_data))
-    PROVIDE(__stop_svc_data = .);
+  }
+  .log_dynamic_data :
+  {
+  PROVIDE(__start_log_dynamic_data = .);
+  KEEP(*(SORT(.log_dynamic_data*)))
+  PROVIDE(__stop_log_dynamic_data = .);
   } > RAM
-
   .fs_data :
   {
-    PROVIDE(__start_fs_data = .);
-    KEEP(*(.fs_data))
-    PROVIDE(__stop_fs_data = .);
-  } > RAM
-   .log_dynamic_data :
-  {
-    PROVIDE(__start_log_dynamic_data = .);
-    KEEP(*(.log_dynamic_data))
-    PROVIDE(__stop_log_dynamic_data = .);
+  PROVIDE(__start_fs_data = .);
+  KEEP(*(.fs_data))
+  PROVIDE(__stop_fs_data = .);
   } > RAM
   .cli_sorted_cmd_ptrs :
   {
-    PROVIDE(__start_cli_sorted_cmd_ptrs = .);
-    KEEP(*(.cli_sorted_cmd_ptrs))
-    PROVIDE(__stop_cli_sorted_cmd_ptrs = .);
+  PROVIDE(__start_cli_sorted_cmd_ptrs = .);
+  KEEP(*(.cli_sorted_cmd_ptrs))
+  PROVIDE(__stop_cli_sorted_cmd_ptrs = .);
   } > RAM
 } INSERT AFTER .data;
 

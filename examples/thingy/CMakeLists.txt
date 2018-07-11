@@ -58,21 +58,21 @@ target_sources(${target} PUBLIC
     "${SDK_ROOT}/components/libraries/util/app_util_platform.c"
     "${SDK_ROOT}/components/libraries/util/sdk_mapped_flags.c"
     "${SDK_ROOT}/components/libraries/queue/nrf_queue.c"
-    # "${SDK_ROOT}/components/libraries/experimental_log/src/nrf_log_frontend.c"
-    # "${SDK_ROOT}/components/libraries/experimental_log/src/nrf_log_default_backends.c"
-    # "${SDK_ROOT}/components/libraries/experimental_log/src/nrf_log_backend_serial.c"
-    # "${SDK_ROOT}/components/libraries/experimental_log/src/nrf_log_backend_rtt.c"
-    # "${SDK_ROOT}/components/libraries/experimental_log/src/nrf_log_str_formatter.c"
+    "${SDK_ROOT}/components/libraries/experimental_log/src/nrf_log_frontend.c"
+    "${SDK_ROOT}/components/libraries/experimental_log/src/nrf_log_default_backends.c"
+    "${SDK_ROOT}/components/libraries/experimental_log/src/nrf_log_backend_serial.c"
+    "${SDK_ROOT}/components/libraries/experimental_log/src/nrf_log_backend_rtt.c"
+    "${SDK_ROOT}/components/libraries/experimental_log/src/nrf_log_str_formatter.c"
     "${SDK_ROOT}/components/libraries/experimental_memobj/nrf_memobj.c"
     "${SDK_ROOT}/components/libraries/balloc/nrf_balloc.c"
     "${SDK_ROOT}/components/libraries/atomic/nrf_atomic.c"
     "${SDK_ROOT}/components/libraries/strerror/nrf_strerror.c"
     "${SDK_ROOT}/modules/nrfx/drivers/src/prs/nrfx_prs.c"
-    # "${SDK_ROOT}/external/fprintf/nrf_fprintf.c"
-    # "${SDK_ROOT}/external/fprintf/nrf_fprintf_format.c"
-    # "${SDK_ROOT}/external/segger_rtt/SEGGER_RTT_Syscalls_GCC.c"
-    # "${SDK_ROOT}/external/segger_rtt/SEGGER_RTT.c"
-    # "${SDK_ROOT}/external/segger_rtt/SEGGER_RTT_printf.c"
+    "${SDK_ROOT}/external/fprintf/nrf_fprintf.c"
+    "${SDK_ROOT}/external/fprintf/nrf_fprintf_format.c"
+    "${SDK_ROOT}/external/segger_rtt/SEGGER_RTT_Syscalls_GCC.c"
+    "${SDK_ROOT}/external/segger_rtt/SEGGER_RTT.c"
+    "${SDK_ROOT}/external/segger_rtt/SEGGER_RTT_printf.c"
     )
 target_include_directories(${target} PUBLIC
     "${SDK_ROOT}/modules/nrfx/drivers/include"
@@ -93,7 +93,7 @@ target_include_directories(${target} PUBLIC
     "${SDK_ROOT}/components/libraries/atomic/"
     "${SDK_ROOT}/modules/nrfx/drivers/src/prs/"
     "${SDK_ROOT}/external/fprintf/"
-
+    "${SDK_ROOT}/external/segger_rtt/"
     )
 
 
@@ -101,7 +101,7 @@ target_include_directories(${target} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/../include"
     "${CMAKE_SOURCE_DIR}/examples/common/include"
-    "${CMAKE_SOURCE_DIR}/external/rtt/include"
+    # "${CMAKE_SOURCE_DIR}/external/rtt/include"
     ${SIMPLE_ON_OFF_SERVER_INCLUDE_DIRS}
     ${SIMPLE_ON_OFF_CLIENT_INCLUDE_DIRS}
     ${CONFIG_SERVER_INCLUDE_DIRS}
@@ -116,7 +116,6 @@ target_include_directories(${target} PUBLIC
     "${THINGY_ROOT}/include/board"
     "${THINGY_ROOT}/include/drivers"
     "${THINGY_ROOT}/include/macros"
-    "${THINGY_ROOT}/include/modules"
     "${THINGY_ROOT}/include/ble_services"
     "${THINGY_ROOT}/include/util"
     "${THINGY_ROOT}/libs/bv32fp-1.2"
@@ -161,7 +160,7 @@ target_compile_definitions(${target} PUBLIC
     -DNRF52_PAN_62
     -DNRF52_PAN_63
     -DNRF52_PAN_64
-    -DTHINGY_HW_v0_8_0
+    # -DTHINGY_HW_v0_8_0
     -DSOFTDEVICE_PRESENT
     -DSWI_DISABLE0
     -DBSP_DEFINES_ONLY

@@ -35,42 +35,14 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef APP_CONFIG_H__
-#define APP_CONFIG_H__
+#ifndef MESH_H__
+#define MESH_H__
+#include <stdint.h>
+#include "simple_hal.h"
+#define BUTTON_PRESS_ON_OFF_THRESHOLD_MS HAL_MS_TO_RTC_TICKS(200)
+#define BUTTON_PRESS_NODE_RESET_THRESHOLD_MS HAL_MS_TO_RTC_TICKS(4000)
 
-/* Override default sdk_config.h values. */
-#define NRF_SDH_ENABLED 1
-#define NRF_SDH_BLE_ENABLED 1
-#define NRF_SDH_SOC_ENABLED 1
-#define NRF_SDH_BLE_GATT_MAX_MTU_SIZE 69
-#define NRF_SDH_BLE_PERIPHERAL_LINK_COUNT 1
-#define NRF_SDH_BLE_SERVICE_CHANGED 1
-#define APP_TIMER_ENABLED 1
-#define BUTTON_ENABLED 1
-#define NRFX_TWI_ENABLED 1
-#define NRFX_TWI0_ENABLED 1
-#define TWI_ENABLED 1
-#define TWI0_ENABLED 1
-
-
-#define APP_SCHEDULER_ENABLED 1
-#define APP_TIMER_CONFIG_USE_SCHEDULER 1
-#define NRF_SDH_DISPATCH_MODEL 1
-
-
-#define GPIOTE_ENABLED 1
-#define NRF_QUEUE_ENABLED 1
-#define NRF_STRERROR_ENABLED 1
-#define APP_TIMER_CONFIG_OP_QUEUE_SIZE 75 * 2
-#define APP_TIMER_CONFIG_USE_SCHEDULER 1
-#define TWI_DEFAULT_CONFIG_IRQ_PRIORITY 6
-
-
-#define NRF_LOG_ENABLED 1
-#define NRF_LOG_BACKEND_RTT_ENABLED 1
-#define NRF_LOG_BACKEND_RTT_TEMP_BUFFER_SIZE 64
-#define NRF_LOG_BACKEND_RTT_TX_RETRY_DELAY_MS 1
-#define NRF_LOG_BACKEND_RTT_TX_RETRY_CNT 3
-#define NRF_LOG_USES_COLORS 1
-
-#endif /* APP_CONFIG_H__ */
+void mesh_init(void);
+void mesh_start(void);
+void button_evt_handler(uint8_t pin, uint8_t button_action);
+#endif /* MESH_H__ */
